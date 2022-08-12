@@ -41,7 +41,7 @@ module "vpc" {
   # Cloudwatch log group and IAM role will be created
   enable_flow_log                      = true
   create_flow_log_cloudwatch_log_group = true
-  create_flow_log_cloudwatch_iam_role  = true
+  create_flow_log_cloudwatch_iam_role   = true
 
   vpc_flow_log_tags = {
     Name = "vpc-flow-logs-cloudwatch-logs"

@@ -31,6 +31,13 @@ variable "cidr_num_bits" {
   type        = number
 }
 
+variable "vpc_tag_info" {
+  type        = map(any)
+  default     = {}
+  description = " A map of tags to assign to the resource."
+}
+
+
 variable "name" {
   description = "The name of the ECR repository to manage."
   type        = string

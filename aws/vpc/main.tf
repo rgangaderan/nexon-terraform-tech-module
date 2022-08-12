@@ -14,15 +14,7 @@ locals {
   private_subnets    = [for i in range(local.az_count) : cidrsubnet(local.private_cidr, 2, i)]
   public_subnets     = [for i in range(local.az_count) : cidrsubnet(local.public_cidr, 2, i)]
 
-
-  vpc_tag_info = [
-    { "key" : "Environment", "value" : "${var.stage}", propagate_at_launch : "true" },
-    { "key" : "PlatformOwner", "value" : "${var.name}-${var.stage}", propagate_at_launch : "true" },
-    { "key" : "Name", "value" : "${var.name}-${var.stage}", propagate_at_launch : "true" },
-  ]
-
 }
-
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
@@ -54,5 +46,5 @@ module "vpc" {
   vpc_flow_log_tags = {
     Name = "vpc-flow-logs-cloudwatch-logs"
   }
-  tags = local.vpc_tag_info
+  tags = var.vpc_tag_info
 }

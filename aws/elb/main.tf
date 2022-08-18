@@ -1,5 +1,5 @@
 locals {
-  elb_info = [
+  tag_info = [
     { "key" : "Environment", "value" : "${var.stage}", propagate_at_launch : "true" },
     { "key" : "PlatformOwner", "value" : "${var.name}-${var.stage}", propagate_at_launch : "true" },
     { "key" : "Name", "value" : "${var.name}-${var.stage}", propagate_at_launch : "true" },
@@ -49,5 +49,5 @@ resource "aws_elb" "this" {
     timeout             = lookup(var.health_check, "timeout")
   }
 
-  tags = local.asg_tag_info
+  tags = local.tag_info
 }

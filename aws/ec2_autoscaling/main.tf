@@ -1,7 +1,7 @@
 locals {
   name_prefix = "${var.name}-${var.stage}"
 
-  asg_tag_info = [
+  tag_info = [
     { "key" : "Environment", "value" : "${var.stage}", propagate_at_launch : "true" },
     { "key" : "PlatformOwner", "value" : "${var.name}-${var.stage}", propagate_at_launch : "true" },
     { "key" : "Name", "value" : "${var.name}-${var.stage}", propagate_at_launch : "true" },
@@ -52,5 +52,5 @@ resource "aws_autoscaling_group" "hosts" {
   launch_template {
     name = aws_launch_template.nexon-vms.name
   }
-  tags = local.asg_tag_info
+  tags = local.tag_info
 }

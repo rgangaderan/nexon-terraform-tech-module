@@ -46,5 +46,5 @@ module "vpc" {
   vpc_flow_log_tags = {
     Name = "vpc-flow-logs-cloudwatch-logs"
   }
-  tags = var.vpc_tag_info
+  tags = var.tag_info
 }

@@ -84,3 +84,9 @@ variable "elb_name_prefix" {
   type        = string
   description = "Creates a unique name beginning with the specified prefix (cannot be longer than 6 characters)"
 }
+
+variable "tag_info" {
+  type        = map(any)
+  default     = {}
+  description = " A map of tags to assign to the resource."
+}

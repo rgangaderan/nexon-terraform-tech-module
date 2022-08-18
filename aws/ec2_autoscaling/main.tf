@@ -1,3 +1,7 @@
+locals {
+  name_prefix = "${var.name}-${var.stage}"
+}
+
 resource "aws_launch_template" "nexon-vms" {
 
   # checkov:skip=CKV_AWS_79: "Ensure Instance Metadata Service Version 1 is not enabled"

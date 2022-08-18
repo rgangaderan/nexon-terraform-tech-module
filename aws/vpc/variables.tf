@@ -31,7 +31,7 @@ variable "cidr_num_bits" {
   type        = number
 }
 
-variable "vpc_tag_info" {
+variable "tag_info" {
   type        = map(any)
   default     = {}
   description = " A map of tags to assign to the resource."

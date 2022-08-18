@@ -1,13 +1,3 @@
-locals {
-  name_prefix = "${var.name}-${var.stage}"
-
-  tag_info = [
-    { "key" : "Environment", "value" : "${var.stage}", propagate_at_launch : "true" },
-    { "key" : "PlatformOwner", "value" : "${var.name}-${var.stage}", propagate_at_launch : "true" },
-    { "key" : "Name", "value" : "${var.name}-${var.stage}", propagate_at_launch : "true" },
-  ]
-}
-
 resource "aws_launch_template" "nexon-vms" {
 
   # checkov:skip=CKV_AWS_79: "Ensure Instance Metadata Service Version 1 is not enabled"
@@ -52,5 +42,5 @@ resource "aws_autoscaling_group" "hosts" {
   launch_template {
     name = aws_launch_template.nexon-vms.name
   }
-  tags = local.tag_info
+  tags = var.tag_info
 }

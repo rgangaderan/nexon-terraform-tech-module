@@ -1,11 +1,3 @@
-locals {
-  tag_info = [
-    { "key" : "Environment", "value" : "${var.stage}", propagate_at_launch : "true" },
-    { "key" : "PlatformOwner", "value" : "${var.name}-${var.stage}", propagate_at_launch : "true" },
-    { "key" : "Name", "value" : "${var.name}-${var.stage}", propagate_at_launch : "true" },
-  ]
-
-}
 resource "aws_elb" "this" {
   count       = var.create_elb ? 1 : 0
   name_prefix = var.elb_name_prefix
@@ -49,5 +41,5 @@ resource "aws_elb" "this" {
     timeout             = lookup(var.health_check, "timeout")
   }
 
-  tags = local.tag_info
+  tags = var.tag_info
 }

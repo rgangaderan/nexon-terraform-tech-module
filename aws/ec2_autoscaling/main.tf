@@ -46,5 +46,9 @@ resource "aws_autoscaling_group" "hosts" {
   launch_template {
     name = aws_launch_template.nexon-vms.name
   }
-  tags = var.tag_info
+  tag {
+    key  = "Name"
+    value = local.name_prefix
+    propagate_at_launch = true
+  }
 }

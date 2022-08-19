@@ -80,9 +80,3 @@ variable "load_balancers" {
   type        = list(any)
   description = "A list of elastic load balancer names to add to the autoscaling group names."
 }
-
-variable "tag_info" {
-  type        = map(any)
-  default     = {}
-  description = " A map of tags to assign to the resource."
-}

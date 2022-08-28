@@ -3,7 +3,7 @@
 variable "network" {
   description = "An object describing the AWS VPC network and subnet"
   type = object({
-    vpc_id             = string
+    vpc_id            = string
     public_subnet_ids = list(string)
   })
 }

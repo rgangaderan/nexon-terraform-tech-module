@@ -6,6 +6,7 @@ locals {
 ###############################################################################
 resource "aws_alb" "this_alb" {
   # checkov:skip=CKV2_AWS_28: "Access to this interface is limited only to trusted IPs"
+  # checkov:skip=CKV2_AWS_20: "Ensure that ALB redirects HTTP requests into HTTPS ones"
 
   name               = "${local.name_prefix}-lb"
   internal           = false
@@ -35,7 +36,6 @@ resource "aws_alb_listener" "http_listener_service" {
   # checkov:skip=CKV_AWS_103: "Ensure that load balancer is using TLS 1.2"
   count             = local.name_prefix == "" ? 0 : 1
   load_balancer_arn = aws_alb.this_alb.arn
-
 
   port     = 80
   protocol = "HTTP"

@@ -14,7 +14,7 @@ resource "aws_alb" "this_alb" {
   security_groups = [aws_security_group.alb_sg.id]
 
   idle_timeout = 600
-  tags = var.tag_info
+  tags         = var.tag_info
 
   drop_invalid_header_fields = true
   enable_deletion_protection = true
@@ -29,12 +29,12 @@ resource "aws_alb" "this_alb" {
 ###############################################################################
 
 resource "aws_alb_listener" "http_listener_service" {
-  count = local.name_prefix == "" ? 0 : 1
+  count             = local.name_prefix == "" ? 0 : 1
   load_balancer_arn = aws_alb.this_alb.arn
 
   # FIXME should be 443 and https need to change once acm-certificate is working
-  port            = 80
-  protocol        = "HTTP"
+  port     = 80
+  protocol = "HTTP"
   default_action {
     type = "fixed-response"
     fixed_response {

@@ -6,7 +6,7 @@ output "application_lb" {
 output "listeners" {
   description = "An object describing the listeners attached to the load balancer"
   value = {
-    http  = aws_alb_listener.http_listener_service
+    http = aws_alb_listener.http_listener_service
   }
 }
 

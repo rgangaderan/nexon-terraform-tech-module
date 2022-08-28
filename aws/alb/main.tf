@@ -6,6 +6,7 @@ locals {
 
 resource "aws_alb" "this_alb" {
   # checkov:skip=CKV2_AWS_28: "Access to this interface is limited only to trusted IPs"
+  #checkov:skipt=CKV2_AWS_20: "Ensure that ALB redirects HTTP requests into HTTPS ones"
   name               = "${local.name_prefix}-lb"
   internal           = false
   load_balancer_type = "application"
@@ -29,10 +30,11 @@ resource "aws_alb" "this_alb" {
 ###############################################################################
 
 resource "aws_alb_listener" "http_listener_service" {
+  # checkov:skip=CKV_AWS_103: "Ensure that load balancer is using TLS 1.2"
   count             = local.name_prefix == "" ? 0 : 1
   load_balancer_arn = aws_alb.this_alb.arn
 
-  # FIXME should be 443 and https need to change once acm-certificate is working
+
   port     = 80
   protocol = "HTTP"
   default_action {

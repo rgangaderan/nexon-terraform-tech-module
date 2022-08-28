@@ -38,11 +38,11 @@ resource "aws_alb_listener" "http_listener_service" {
   port     = 80
   protocol = "HTTP"
   default_action {
-    type = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "No services deployed"
-      status_code  = "200"
+    type = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
     }
   }
 }

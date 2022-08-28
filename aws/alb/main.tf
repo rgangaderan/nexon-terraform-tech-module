@@ -6,7 +6,7 @@ locals {
 
 resource "aws_alb" "this_alb" {
   # checkov:skip=CKV2_AWS_28: "Access to this interface is limited only to trusted IPs"
-  #checkov:skipt=CKV2_AWS_20: "Ensure that ALB redirects HTTP requests into HTTPS ones"
+  # checkov:skipt=CKV2_AWS_20: "Ensure that ALB redirects HTTP requests into HTTPS ones"
   name               = "${local.name_prefix}-lb"
   internal           = false
   load_balancer_type = "application"

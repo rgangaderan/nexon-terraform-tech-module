@@ -33,3 +33,15 @@ variable "name" {
   description = "Prefix used to create resource names."
   type        = string
 }
+
+variable "health_check" {
+  type = map(string)
+  default = {
+    "timeout"             = "10"
+    "interval"            = "20"
+    "path"                = "/"
+    "port"                = "80"
+    "unhealthy_threshold" = "2"
+    "healthy_threshold"   = "3"
+  }
+}

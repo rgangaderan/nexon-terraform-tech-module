@@ -1,12 +1,18 @@
 locals {
   name_prefix = "${var.name}-${var.stage}"
 }
+resource "random_string" "random" {
+  length  = 5
+  special = false
+  lower   = true
+  upper   = false
+}
 
 resource "aws_launch_template" "nexon-vms" {
 
   # checkov:skip=CKV_AWS_79: "Ensure Instance Metadata Service Version 1 is not enabled"
 
-  name                   = "${local.name_prefix}-ec2"
+  name                   = "${local.name_prefix}-ec2-${random_string.random.result}"
   image_id               = var.image_id
   instance_type          = lookup(var.instance_type, var.stage, "instance type not allowed!")
   key_name               = var.key_name
@@ -38,11 +44,12 @@ resource "aws_launch_template" "nexon-vms" {
 }
 
 resource "aws_autoscaling_group" "hosts" {
-  name                = "${local.name_prefix}-aws_autoscaling_group"
+  name                = "${local.name_prefix}-${random_string.random.result}"
   min_size            = var.min_size
   max_size            = var.max_size
   vpc_zone_identifier = var.vpc_zone_identifier
   load_balancers      = var.load_balancers
+  target_group_arns   = var.target_group_arns
   launch_template {
     name = aws_launch_template.nexon-vms.name
   }

@@ -77,6 +77,13 @@ variable "vpc_zone_identifier" {
 }
 
 variable "load_balancers" {
-  type        = list(any)
-  description = "A list of elastic load balancer names to add to the autoscaling group names."
+  description = "A list of elastic load balancer names to add to the autoscaling group names. Only valid for classic load balancers. For ALBs, use `target_group_arns` instead"
+  type        = list(string)
+  default     = []
+}
+
+variable "target_group_arns" {
+  description = "A set of `aws_alb_target_group` ARNs, for use with Application or Network Load Balancing"
+  type        = list(string)
+  default     = []
 }

@@ -3,10 +3,10 @@ locals {
 }
 ###############################################################################
 # Application load balancer
-
+###############################################################################
 resource "aws_alb" "this_alb" {
   # checkov:skip=CKV2_AWS_28: "Access to this interface is limited only to trusted IPs"
-  # checkov:skipt=CKV2_AWS_20: "Ensure that ALB redirects HTTP requests into HTTPS ones"
+
   name               = "${local.name_prefix}-lb"
   internal           = false
   load_balancer_type = "application"
@@ -28,6 +28,8 @@ resource "aws_alb" "this_alb" {
 }
 
 ###############################################################################
+# Listener
+###############################################################################
 
 resource "aws_alb_listener" "http_listener_service" {
   # checkov:skip=CKV_AWS_103: "Ensure that load balancer is using TLS 1.2"
@@ -38,11 +40,27 @@ resource "aws_alb_listener" "http_listener_service" {
   port     = 80
   protocol = "HTTP"
   default_action {
-    type = "redirect"
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.instance_target_group.arn
+  }
+}
+
+###############################################################################
+# TargetGroup Instance
+###############################################################################
+
+resource "aws_lb_target_group" "instance_target_group" {
+  name        = "${local.name_prefix}-target-gp"
+  target_type = "instance"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = var.network.vpc_id
+  health_check {
+    healthy_threshold   = var.health_check["healthy_threshold"]
+    interval            = var.health_check["interval"]
+    unhealthy_threshold = var.health_check["unhealthy_threshold"]
+    timeout             = var.health_check["timeout"]
+    path                = var.health_check["path"]
+    port                = var.health_check["port"]
   }
 }

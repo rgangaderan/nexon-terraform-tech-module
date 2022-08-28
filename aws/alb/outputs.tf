@@ -14,3 +14,9 @@ output "security_group_id" {
   description = "A list of security group IDs to assign to the application load balancer."
   value       = aws_security_group.alb_sg.id
 }
+
+output "target_group_arns" {
+  value       = aws_lb_target_group.instance_target_group.arn
+  description = "ARN of the Target Group"
+
+}

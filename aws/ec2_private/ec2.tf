@@ -3,6 +3,11 @@ locals {
 }
 
 resource "aws_instance" "ec2_private" {
+
+  # checkov:skip=CKV_AWS_79: "Ensure Instance Metadata Service Version 1 is not enabled"
+  # checkov:skip=CKV_AWS_135: "Ensure that EC2 is EBS optimized"
+  # checkov:skip=CKV_AWS_126: "Ensure that detailed monitoring is enabled for EC2 instances"
+  # checkov:skip=CKV_AWS_8: "Ensure all data stored in the Launch configuration or instance Elastic Blocks Store is securely encrypted"
   count                  = var.instance_count
   ami                    = var.image_id
   instance_type          = lookup(var.instance_type, var.stage, "instance type not allowed!")

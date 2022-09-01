@@ -33,7 +33,7 @@ No requirements.
 | <a name="input_region"></a> [region](#input\_region) | AWS Defalut region. | `string` | n/a | yes |
 | <a name="input_single_nat_gateway"></a> [single\_nat\_gateway](#input\_single\_nat\_gateway) | Should be true if you want to provision a single shared NAT Gateway across all of your private networks | `bool` | n/a | yes |
 | <a name="input_stage"></a> [stage](#input\_stage) | The application deployment stage. | `string` | n/a | yes |
-| <a name="input_vpc_tag_info"></a> [vpc\_tag\_info](#input\_vpc\_tag\_info) | A map of tags to assign to the resource. | `map(any)` | `{}` | no |
+| <a name="input_tag_info"></a> [tag\_info](#input\_tag\_info) | A map of tags to assign to the resource. | `map(any)` | `{}` | no |
 
 ## Outputs
 

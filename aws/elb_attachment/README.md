@@ -26,7 +26,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_create_attachment"></a> [create\_attachment](#input\_create\_attachment) | Create the elb attachment or not | `bool` | `true` | no |
+| <a name="input_create_attachment"></a> [create\_attachment](#input\_create\_attachment) | Create the elb attachment or not | `bool` | n/a | yes |
 | <a name="input_elb"></a> [elb](#input\_elb) | The name of the ELB | `string` | n/a | yes |
 | <a name="input_instances"></a> [instances](#input\_instances) | List of instances ID to place in the ELB pool | `list(string)` | n/a | yes |
 | <a name="input_number_of_instances"></a> [number\_of\_instances](#input\_number\_of\_instances) | Number of instances ID to place in the ELB pool | `number` | n/a | yes |

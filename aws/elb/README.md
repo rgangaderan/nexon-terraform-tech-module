@@ -40,6 +40,7 @@ No modules.
 | <a name="input_security_groups"></a> [security\_groups](#input\_security\_groups) | A list of security group IDs to assign to the ELB | `list(string)` | n/a | yes |
 | <a name="input_stage"></a> [stage](#input\_stage) | The application deployment stage. | `string` | n/a | yes |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | A list of subnet IDs to attach to the ELB | `list(string)` | n/a | yes |
+| <a name="input_tag_info"></a> [tag\_info](#input\_tag\_info) | A map of tags to assign to the resource. | `map(any)` | `{}` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A mapping of tags to assign to the resource | `map(string)` | `{}` | no |
 
 ## Outputs

@@ -6,8 +6,6 @@ variable "db" {
       engine_version       = string
       instance_class       = string
       database_name        = string
-      database_username    = string
-      database_password    = string
       parameter_group_name = string
       skip_snapshot        = string
       deletion_protection  = string
@@ -18,6 +16,15 @@ variable "db" {
   description = "Database related Variables."
 }
 
+variable "database_username" {
+  type        = string
+  description = "Username for the master DB user."
+}
+
+variable "database_password" {
+  type        = string
+  description = "Password for the master DB user."
+}
 
 variable "security_group" {
   type        = list(any)

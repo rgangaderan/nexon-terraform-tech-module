@@ -30,8 +30,8 @@ resource "aws_db_instance" "database" {
   engine_version         = var.db.engine_version
   instance_class         = var.db.instance_class
   name                   = var.db.database_name
-  username               = var.db.database_username
-  password               = var.db.database_password
+  username               = var.database_username
+  password               = var.database_password
   parameter_group_name   = var.db.parameter_group_name
   skip_final_snapshot    = true
   db_subnet_group_name   = aws_db_subnet_group.default.name

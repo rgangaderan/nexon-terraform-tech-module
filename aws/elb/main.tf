@@ -1,6 +1,10 @@
+locals {
+  name_prefix = "${var.name}-${var.stage}"
+}
+
 resource "aws_elb" "this" {
   count       = var.create_elb ? 1 : 0
-  name_prefix = var.elb_name_prefix
+  name_prefix = local.name_prefix
 
   subnets         = var.subnets
   internal        = var.internal

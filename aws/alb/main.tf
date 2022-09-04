@@ -51,7 +51,7 @@ resource "aws_alb_listener" "http_listener_service" {
 
 resource "aws_lb_target_group" "instance_target_group" {
   name        = "${local.name_prefix}-target-gp"
-  target_type = "instance"
+  target_type = var.type
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.network.vpc_id

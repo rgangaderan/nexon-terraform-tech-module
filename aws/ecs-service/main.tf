@@ -30,22 +30,23 @@ resource "aws_ecs_service" "fargate" {
   task_definition = aws_ecs_task_definition.task_df.arn
   desired_count   = var.ecs_configuration.general_configuration.desired_count
   launch_type     = var.ecs_configuration.general_configuration.launch_type
+
+  scheduling_strategy                = "REPLICA"
   network_configuration {
     subnets          = var.private_subnet_ids
     security_groups  = var.security_groups
     assign_public_ip = var.assign_public_ip
   }
 
-  ordered_placement_strategy {
-    type  = "binpack"
-    field = "cpu"
-  }
-
   load_balancer {
     target_group_arn = var.target_group_arn
-    container_name   = "${local.name_prefix}-${random_string.random.result}"
+    container_name   = "${local.name_prefix}-container"
     container_port   = var.ecs_configuration.ports.container_port
   }
+  lifecycle {
+    ignore_changes = [task_definition, desired_count]
+  }
+  depends_on = [aws_ecs_task_definition.task_df]
 }
 
 ###################################################
@@ -54,13 +55,15 @@ resource "aws_ecs_service" "fargate" {
 resource "aws_ecs_task_definition" "task_df" {
   family                   = "${local.name_prefix}-task-definition"
   requires_compatibilities = ["FARGATE"]
+  execution_role_arn       = var.ecs_task_execution_role
+  task_role_arn            = var.task_role_arn
   network_mode             = "awsvpc"
   cpu                      = var.ecs_configuration.general_configuration.cpu
   memory                   = var.ecs_configuration.general_configuration.memory
   container_definitions    = <<TASK_DEFINITION
   [
     {
-      "name": "${local.name_prefix}",
+      "name": "${local.name_prefix}-container",
       "image": "${var.ecs_configuration.general_configuration.image}",
       "environment": [
         {
@@ -71,7 +74,14 @@ resource "aws_ecs_task_definition" "task_df" {
         "name": "VARNAME", 
         "value": "VARVAL"
         }
-      ]
+      ],
+
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "hostPort": 80
+      }
+    ]
     }
 ]
 TASK_DEFINITION

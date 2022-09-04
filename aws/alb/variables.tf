@@ -45,3 +45,8 @@ variable "health_check" {
     "healthy_threshold"   = "3"
   }
 }
+
+variable "type" {
+  type        = string
+  description = "Type of target that you must specify when registering targets with this target group"
+}

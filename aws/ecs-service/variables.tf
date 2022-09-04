@@ -34,7 +34,6 @@ variable "image" {
   description = "Container image to be added to taskdefiniton."
 }
 
-
 variable "stage" {
   description = "The application deployment stage."
   type        = string

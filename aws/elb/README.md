@@ -3,7 +3,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=0.14.5 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.69 |
 
 ## Providers
@@ -31,7 +31,6 @@ No modules.
 | <a name="input_connection_draining_timeout"></a> [connection\_draining\_timeout](#input\_connection\_draining\_timeout) | The time in seconds to allow for connections to drain | `number` | `300` | no |
 | <a name="input_create_elb"></a> [create\_elb](#input\_create\_elb) | Create the elb or not | `bool` | `true` | no |
 | <a name="input_cross_zone_load_balancing"></a> [cross\_zone\_load\_balancing](#input\_cross\_zone\_load\_balancing) | Enable cross-zone load balancing | `bool` | `true` | no |
-| <a name="input_elb_name_prefix"></a> [elb\_name\_prefix](#input\_elb\_name\_prefix) | Creates a unique name beginning with the specified prefix (cannot be longer than 6 characters) | `string` | n/a | yes |
 | <a name="input_health_check"></a> [health\_check](#input\_health\_check) | A health check block | `map(string)` | n/a | yes |
 | <a name="input_idle_timeout"></a> [idle\_timeout](#input\_idle\_timeout) | The time in seconds that the connection is allowed to be idle | `number` | `60` | no |
 | <a name="input_internal"></a> [internal](#input\_internal) | If true, ELB will be an internal ELB | `bool` | n/a | yes |

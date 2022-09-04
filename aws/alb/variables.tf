@@ -1,5 +1,3 @@
-###############################################################################
-
 variable "network" {
   description = "An object describing the AWS VPC network and subnet"
   type = object({
@@ -12,6 +10,11 @@ variable "tag_info" {
   type        = map(any)
   default     = {}
   description = " A map of tags to assign to the resource."
+}
+
+variable "security_groups" {
+  description = "A list of security group IDs to assign to the ELB"
+  type        = list(string)
 }
 
 variable "allowed_ips" {

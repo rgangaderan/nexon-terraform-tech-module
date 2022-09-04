@@ -13,7 +13,7 @@ resource "aws_alb" "this_alb" {
   load_balancer_type = "application"
 
   subnets         = var.network.public_subnet_ids
-  security_groups = [aws_security_group.alb_sg.id]
+  security_groups = var.security_groups == null ? [aws_security_group.alb_sg.id] : var.security_groups
 
   idle_timeout = 600
   tags         = var.tag_info

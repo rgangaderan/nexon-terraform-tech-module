@@ -28,8 +28,8 @@ resource "aws_ecs_service" "fargate" {
   name            = "${local.name_prefix}-${random_string.random.result}"
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task_df.arn
-  desired_count   = var.desired_count
-  iam_role        = var.iam_role
+  desired_count   = var.ecs_configuration.general_configuration.desired_count
+  launch_type     = var.ecs_configuration.general_configuration.launch_type
   network_configuration {
     subnets          = var.private_subnet_ids
     security_groups  = var.security_groups
@@ -44,12 +44,7 @@ resource "aws_ecs_service" "fargate" {
   load_balancer {
     target_group_arn = var.target_group_arn
     container_name   = "${local.name_prefix}-${random_string.random.result}"
-    container_port   = var.task_definition.ports.container_port
-  }
-
-  placement_constraints {
-    type       = "memberOf"
-    expression = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
+    container_port   = var.ecs_configuration.ports.container_port
   }
 }
 
@@ -60,33 +55,28 @@ resource "aws_ecs_task_definition" "task_df" {
   family                   = "${local.name_prefix}-task-definition"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = var.task_definition.general_configuration.cpu
-  memory                   = var.task_definition.general_configuration.memory
-  essential                = true
+  cpu                      = var.ecs_configuration.general_configuration.cpu
+  memory                   = var.ecs_configuration.general_configuration.memory
   container_definitions    = <<TASK_DEFINITION
   [
     {
       "name": "${local.name_prefix}",
-      "image": "${var.task_definition.image}",
-      "cpu": "${var.task_definition.general_configuration.cpu}",
-      "memory": "${var.task_definition.general_configuration.memory}",
+      "image": "${var.ecs_configuration.general_configuration.image}",
       "environment": [
-        ${var.env_variable}
-      ],
-      "essential": true
+        {
+          "name": "VARNAME", 
+          "value": "VARVAL"
+        },
+        {
+        "name": "VARNAME", 
+        "value": "VARVAL"
+        }
+      ]
     }
 ]
 TASK_DEFINITION
   runtime_platform {
-    operating_system_family = "Linux"
+    operating_system_family = "LINUX"
     cpu_architecture        = "ARM64"
   }
-
-
-  portMappings = [
-    {
-      containerPort = var.task_definition.ports.container_port
-      hostPort      = var.task_definition.ports.host_port
-    }
-  ]
 }

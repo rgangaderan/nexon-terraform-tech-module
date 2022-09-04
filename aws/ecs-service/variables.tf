@@ -65,3 +65,13 @@ variable "target_group_arn" {
   type        = string
   description = "ARN of the Load Balancer target group to associate with the service."
 }
+
+variable "ecs_task_execution_role" {
+  type        = string
+  description = "ECS Task Execution role to pull ECR Images"
+}
+
+variable "task_role_arn" {
+  type        = string
+  description = "ECS Task role"
+}

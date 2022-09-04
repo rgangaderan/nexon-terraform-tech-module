@@ -52,7 +52,7 @@ variable "subnet_ids" {
 }
 
 variable "security_groups" {
-  type        = list
+  type        = list(any)
   description = "Security groups associated with the task or service."
 }
 

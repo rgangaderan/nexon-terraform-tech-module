@@ -6,8 +6,12 @@ data "aws_region" "current" {}
 ###############################
 
 ####### Cloud Wathc Log Group for ECS Taks ########
+
+
 resource "aws_cloudwatch_log_group" "ecs" {
-  name = "/aws/ecs/containerinsights/${local.name_prefix}-ecs"
+  # checkov:skip=CKV_AWS_158: "Ensure that CloudWatch Log Group is encrypted by KMS"
+  name              = "/aws/ecs/containerinsights/${local.name_prefix}-ecs"
+  retention_in_days = 60
 
 }
 ###################################################

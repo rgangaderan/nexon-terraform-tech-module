@@ -1,7 +1,20 @@
 locals {
   name_prefix = "${var.name}-${var.stage}"
 }
+######## Fetch Region #########
+data "aws_region" "current" {}
+###############################
 
+####### Cloud Wathc Log Group for ECS Taks ########
+resource "aws_cloudwatch_log_group" "ecs" {
+  name = "/aws/ecs/containerinsights/${local.name_prefix}-ecs"
+
+}
+###################################################
+
+###################################################
+# ECS Cluster
+###################################################
 resource "random_string" "random" {
   length  = 5
   special = false
@@ -31,9 +44,10 @@ resource "aws_ecs_service" "fargate" {
   desired_count   = var.ecs_configuration.general_configuration.desired_count
   launch_type     = var.ecs_configuration.general_configuration.launch_type
 
-  scheduling_strategy                = "REPLICA"
+  scheduling_strategy = "REPLICA"
+
   network_configuration {
-    subnets          = var.private_subnet_ids
+    subnets          = var.subnet_ids
     security_groups  = var.security_groups
     assign_public_ip = var.assign_public_ip
   }
@@ -65,6 +79,14 @@ resource "aws_ecs_task_definition" "task_df" {
     {
       "name": "${local.name_prefix}-container",
       "image": "${var.ecs_configuration.general_configuration.image}",
+      "logConfiguration": {
+                  "logDriver": "awslogs",
+                  "options": {
+                      "awslogs-region" : "${data.aws_region.current.name}",
+                      "awslogs-group" : "${aws_cloudwatch_log_group.ecs.name}",
+                      "awslogs-stream-prefix" : "project"
+                }                  
+              },
       "environment": [
         {
           "name": "VARNAME", 
@@ -85,8 +107,4 @@ resource "aws_ecs_task_definition" "task_df" {
     }
 ]
 TASK_DEFINITION
-  runtime_platform {
-    operating_system_family = "LINUX"
-    cpu_architecture        = "ARM64"
-  }
 }

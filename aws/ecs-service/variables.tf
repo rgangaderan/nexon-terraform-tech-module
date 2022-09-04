@@ -46,7 +46,7 @@ variable "name" {
   type        = string
 }
 
-variable "private_subnet_ids" {
+variable "subnet_ids" {
   type        = list(string)
   description = "Subnets associated with the task or service."
 }

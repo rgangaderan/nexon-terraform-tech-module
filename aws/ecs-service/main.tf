@@ -82,7 +82,7 @@ resource "aws_ecs_task_definition" "task_df" {
   [
     {
       "name": "${local.name_prefix}-container",
-      "image": "${var.ecs_configuration.general_configuration.image}",
+      "image": "${var.image}",
       "logConfiguration": {
                   "logDriver": "awslogs",
                   "options": {

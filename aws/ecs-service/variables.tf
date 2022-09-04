@@ -5,7 +5,6 @@ variable "ecs_configuration" {
       general_configuration = object({
         cpu           = number
         memory        = number
-        image         = string
         desired_count = number
         launch_type   = string
 
@@ -30,6 +29,10 @@ variable "ecs_configuration" {
 #   description = "The environment variables to pass to the container. This is a list of maps"
 # }
 
+variable "image" {
+  type        = string
+  description = "Container image to be added to taskdefiniton."
+}
 
 variable "stage" {
   description = "The application deployment stage."

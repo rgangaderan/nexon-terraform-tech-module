@@ -24,7 +24,7 @@ resource "aws_db_subnet_group" "default" {
 # RDS Instance
 #####################################################
 resource "aws_db_instance" "database" {
-  # checkov:skip=Check: CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
+  # checkov:skip=CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
   identifier                 = "${local.name_prefix}-${random_string.random.result}"
   allocated_storage          = var.db.storage
   engine                     = var.db.engine

@@ -25,6 +25,7 @@ resource "aws_db_subnet_group" "default" {
 #####################################################
 resource "aws_db_instance" "database" {
   # checkov:skip=CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
+  # checkov:skip=CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
   identifier                 = "${local.name_prefix}-${random_string.random.result}"
   allocated_storage          = var.db.storage
   engine                     = var.db.engine
@@ -42,7 +43,6 @@ resource "aws_db_instance" "database" {
   vpc_security_group_ids     = var.security_group
   port                       = var.db.db_port
   tags                       = var.tag_info
-  monitoring_interval        = 5
 
   enabled_cloudwatch_logs_exports = ["general", "error", "slowquery"]
 }

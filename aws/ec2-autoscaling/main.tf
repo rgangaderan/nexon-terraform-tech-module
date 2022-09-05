@@ -42,7 +42,7 @@ resource "aws_launch_template" "nexon-vms" {
 }
 
 resource "aws_autoscaling_group" "hosts" {
-  name                = "${local.name_prefix}-${random_string.random.result}"
+  name                = "${local.name_prefix}-${module.random.result}"
   min_size            = var.min_size
   max_size            = var.max_size
   vpc_zone_identifier = var.vpc_zone_identifier

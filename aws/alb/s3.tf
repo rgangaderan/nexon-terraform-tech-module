@@ -2,7 +2,7 @@ module "s3_bucket_for_logs" {
   source  = "terraform-aws-modules/s3-bucket/aws"
   version = "~> 2.14.1"
 
-  bucket = "${lower(local.name_prefix)}-load-balancer-logs-bucket"
+  bucket = "${lower(local.name_prefix)}-load-balancer-logs-bucket-${module.random.result}"
   acl    = "log-delivery-write"
 
   # Allow deletion of non-empty bucket

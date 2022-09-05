@@ -2,10 +2,14 @@ locals {
   name_prefix = "${var.name}-${var.stage}"
 }
 
+module "random" {
+  source = "../random-string/"
+}
+
 resource "aws_ecr_repository" "artifacts" {
   # checkov:skip=CKV_AWS_51
   # checkov:skip=CKV_AWS_136
-  name = local.name_prefix
+  name = "${local.name_prefix}-${module.random.result}"
 
   image_tag_mutability = var.image_tag_mutability
 

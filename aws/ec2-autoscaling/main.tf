@@ -1,18 +1,16 @@
 locals {
   name_prefix = "${var.name}-${var.stage}"
 }
-resource "random_string" "random" {
-  length  = 5
-  special = false
-  lower   = true
-  upper   = false
+
+module "random" {
+  source = "../random-string/"
 }
 
 resource "aws_launch_template" "nexon-vms" {
 
   # checkov:skip=CKV_AWS_79: "Ensure Instance Metadata Service Version 1 is not enabled"
 
-  name                   = "${local.name_prefix}-ec2-${random_string.random.result}"
+  name                   = "${local.name_prefix}-ec2-${module.random.result}"
   image_id               = var.image_id
   instance_type          = lookup(var.instance_type, var.stage, "instance type not allowed!")
   key_name               = var.key_name

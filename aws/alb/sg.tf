@@ -1,7 +1,3 @@
-module "random" {
-  source = "../random-string/"
-}
-
 resource "aws_security_group" "alb_sg" {
   name        = "lb-${local.name_prefix}-sg-${module.random.result}"
   description = "Allow HTTP from Outside to ALB"

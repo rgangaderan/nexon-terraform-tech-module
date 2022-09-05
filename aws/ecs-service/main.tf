@@ -48,18 +48,14 @@ resource "aws_cloudwatch_log_group" "ecs" {
 ###################################################
 # ECS Cluster
 ###################################################
-resource "random_string" "random" {
-  length  = 5
-  special = false
-  lower   = true
-  upper   = false
-  number  = false
+module "random" {
+  source = "../random-string/"
 }
 ###################################################
 # ECS Cluster
 ###################################################
 resource "aws_ecs_cluster" "cluster" {
-  name = "${local.name_prefix}-ecs-cluster"
+  name = "${local.name_prefix}-ecs-cluster-${module.random.result}"
 
   setting {
     name  = "containerInsights"
@@ -71,7 +67,7 @@ resource "aws_ecs_cluster" "cluster" {
 # ECS Service
 ###################################################
 resource "aws_ecs_service" "fargate" {
-  name            = "${local.name_prefix}-${random_string.random.result}"
+  name            = "${local.name_prefix}-${module.random.result}"
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task_df.arn
   desired_count   = var.ecs_configuration.general_configuration.desired_count
@@ -87,7 +83,7 @@ resource "aws_ecs_service" "fargate" {
 
   load_balancer {
     target_group_arn = var.target_group_arn
-    container_name   = "${local.name_prefix}-container"
+    container_name   = "${local.name_prefix}-container-${module.random.result}"
     container_port   = var.ecs_configuration.ports.container_port
   }
   lifecycle {
@@ -100,7 +96,7 @@ resource "aws_ecs_service" "fargate" {
 # ECS Task Definition
 ###################################################
 resource "aws_ecs_task_definition" "task_df" {
-  family                   = "${local.name_prefix}-task-definition"
+  family                   = "${local.name_prefix}-task-definition-${module.random.result}"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = var.ecs_task_execution_role
   task_role_arn            = var.task_role_arn

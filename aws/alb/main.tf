@@ -1,6 +1,7 @@
 locals {
   name_prefix = "${var.name}-${var.stage}"
 }
+
 module "random" {
   source = "../random-string/"
 }

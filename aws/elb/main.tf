@@ -2,9 +2,13 @@ locals {
   name_prefix = "${var.name}-${var.stage}"
 }
 
+module "random" {
+  source = "../random-string/"
+}
+
 resource "aws_elb" "this" {
   count       = var.create_elb ? 1 : 0
-  name_prefix = local.name_prefix
+  name_prefix = "${local.name_prefix}-${module.random.result}"
 
   subnets         = var.subnets
   internal        = var.internal

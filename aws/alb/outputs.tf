@@ -16,7 +16,7 @@ output "security_group_id" {
 }
 
 output "target_group_arns" {
-  value       = aws_lb_target_group.instance_target_group.arn
+  value       = aws_lb_target_group.target_group.arn
   description = "ARN of the Target Group"
 
 }

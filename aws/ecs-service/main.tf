@@ -92,9 +92,9 @@ resource "aws_ecs_service" "fargate" {
   depends_on = [aws_ecs_task_definition.task_df]
 }
 
-###################################################
+####################################################
 # ECS Task Definition
-###################################################
+####################################################
 resource "aws_ecs_task_definition" "task_df" {
   family                   = "${local.name_prefix}-task-definition-${module.random.result}"
   requires_compatibilities = ["FARGATE"]

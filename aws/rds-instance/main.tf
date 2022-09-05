@@ -2,19 +2,15 @@ locals {
   name_prefix = "${var.name}-${var.stage}"
 }
 
-resource "random_string" "random" {
-  length  = 5
-  special = false
-  lower   = true
-  upper   = false
-  number  = false
+module "random" {
+  source = "../random-string/"
 }
 
 #####################################################
 # DB Subnet Group
 #####################################################
 resource "aws_db_subnet_group" "default" {
-  name       = "${local.name_prefix}-${random_string.random.result}"
+  name       = "${local.name_prefix}-${module.random.result}"
   subnet_ids = var.private_subnet_ids
 
   tags = var.tag_info
@@ -26,7 +22,7 @@ resource "aws_db_subnet_group" "default" {
 resource "aws_db_instance" "database" {
   # checkov:skip=CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
   # checkov:skip=CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
-  identifier                 = "${local.name_prefix}-${random_string.random.result}"
+  identifier                 = "${local.name_prefix}-${module.random.result}"
   allocated_storage          = var.db.storage
   engine                     = var.db.engine
   engine_version             = var.db.engine_version

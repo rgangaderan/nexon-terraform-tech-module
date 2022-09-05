@@ -33,9 +33,12 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | Assign a public IP address to the ENI (Fargate launch type only). | `bool` | n/a | yes |
-| <a name="input_ecs_configuration"></a> [ecs\_configuration](#input\_ecs\_configuration) | The object describing the task definition configuration | <pre>object(<br>    {<br>      general_configuration = object({<br>        cpu           = number<br>        memory        = number<br>        image         = string<br>        desired_count = number<br>        launch_type   = string<br><br>      })<br><br>      ports = object({<br>        container_port = number<br>        host_port      = number<br><br>      })<br><br><br>    }<br>  )</pre> | n/a | yes |
+| <a name="input_ecs_configuration"></a> [ecs\_configuration](#input\_ecs\_configuration) | The object describing the task definition configuration | <pre>object(<br>    {<br>      general_configuration = object({<br>        cpu           = number<br>        memory        = number<br>        desired_count = number<br>        launch_type   = string<br><br>      })<br><br>      ports = object({<br>        container_port = number<br>        host_port      = number<br><br>      })<br><br><br>    }<br>  )</pre> | n/a | yes |
 | <a name="input_ecs_task_execution_role"></a> [ecs\_task\_execution\_role](#input\_ecs\_task\_execution\_role) | ECS Task Execution role to pull ECR Images | `string` | n/a | yes |
+| <a name="input_environment"></a> [environment](#input\_environment) | The environment variables to pass to the container. This is a list of maps. | <pre>list(object({<br>    name  = string<br>    value = string<br>  }))</pre> | `[]` | no |
+| <a name="input_image"></a> [image](#input\_image) | Container image to be added to taskdefiniton. | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Prefix used to create resource names. | `string` | n/a | yes |
+| <a name="input_secrets"></a> [secrets](#input\_secrets) | The secrets to pass to the container. This is a list of maps | <pre>list(object({<br>    name      = string<br>    valueFrom = string<br>  }))</pre> | `[]` | no |
 | <a name="input_security_groups"></a> [security\_groups](#input\_security\_groups) | Security groups associated with the task or service. | `list(any)` | n/a | yes |
 | <a name="input_stage"></a> [stage](#input\_stage) | The application deployment stage. | `string` | `"development"` | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Subnets associated with the task or service. | `list(string)` | n/a | yes |

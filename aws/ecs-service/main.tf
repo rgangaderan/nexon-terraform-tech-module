@@ -1,6 +1,35 @@
 locals {
-  name_prefix = "${var.name}-${var.stage}"
+  name_prefix     = "${var.name}-${var.stage}"
+  env_vars_keys   = var.environment != null ? [for m in var.environment : lookup(m, "name")] : []
+  env_vars_values = var.environment != null ? [for m in var.environment : lookup(m, "value")] : []
+
+  env_vars_as_map      = zipmap(local.env_vars_keys, local.env_vars_values)
+  sorted_env_vars_keys = sort(local.env_vars_keys)
+
+  sorted_environment_vars = [
+    for key in local.sorted_env_vars_keys :
+    {
+      name  = key
+      value = lookup(local.env_vars_as_map, key)
+    }
+  ]
+  final_environment_vars = length(local.sorted_environment_vars) > 0 ? local.sorted_environment_vars : null
+
+  secrets_keys        = var.secrets != null ? [for m in var.secrets : lookup(m, "name")] : []
+  secrets_values      = var.secrets != null ? [for m in var.secrets : lookup(m, "valueFrom")] : []
+  secrets_as_map      = zipmap(local.secrets_keys, local.secrets_values)
+  sorted_secrets_keys = sort(local.secrets_keys)
+
+  sorted_secrets_vars = [
+    for key in local.sorted_secrets_keys :
+    {
+      name      = key
+      valueFrom = lookup(local.secrets_as_map, key)
+    }
+  ]
+  final_secrets_vars = length(local.sorted_secrets_vars) > 0 ? local.sorted_secrets_vars : null
 }
+
 ######## Fetch Region #########
 data "aws_region" "current" {}
 ###############################
@@ -91,16 +120,8 @@ resource "aws_ecs_task_definition" "task_df" {
                       "awslogs-stream-prefix" : "project"
                 }                  
               },
-      "environment": [
-        {
-          "name": "VARNAME", 
-          "value": "VARVAL"
-        },
-        {
-        "name": "VARNAME", 
-        "value": "VARVAL"
-        }
-      ],
+      "environment": ${jsonencode(local.final_environment_vars)},
+      "secrets": ${jsonencode(local.final_secrets_vars)},
 
     "portMappings": [
       {

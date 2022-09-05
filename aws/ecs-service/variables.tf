@@ -78,3 +78,21 @@ variable "task_role_arn" {
   type        = string
   description = "ECS Task role"
 }
+
+variable "environment" {
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  description = "The environment variables to pass to the container. This is a list of maps."
+  default     = []
+}
+
+variable "secrets" {
+  type = list(object({
+    name      = string
+    valueFrom = string
+  }))
+  description = "The secrets to pass to the container. This is a list of maps"
+  default     = []
+}

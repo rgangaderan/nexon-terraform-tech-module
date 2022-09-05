@@ -1,6 +1,9 @@
 locals {
   name_prefix = "${var.name}-${var.stage}"
 }
+module "random" {
+  source = "../random-string/"
+}
 ###############################################################################
 # Application load balancer
 ###############################################################################
@@ -8,7 +11,7 @@ resource "aws_alb" "this_alb" {
   # checkov:skip=CKV2_AWS_28: "Access to this interface is limited only to trusted IPs"
   # checkov:skip=CKV2_AWS_20: "Ensure that ALB redirects HTTP requests into HTTPS ones"
 
-  name               = "${local.name_prefix}-lb"
+  name               = "${local.name_prefix}-lb-${module.random.result}"
   internal           = false
   load_balancer_type = "application"
 
@@ -50,7 +53,7 @@ resource "aws_alb_listener" "http_listener_service" {
 ###############################################################################
 
 resource "aws_lb_target_group" "instance_target_group" {
-  name        = "${local.name_prefix}-target-gp"
+  name        = "${local.name_prefix}-target-gp-${module.random.result}"
   target_type = var.type
   port        = 80
   protocol    = "HTTP"

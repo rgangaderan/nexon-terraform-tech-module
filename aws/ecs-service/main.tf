@@ -83,7 +83,7 @@ resource "aws_ecs_service" "fargate" {
 
   load_balancer {
     target_group_arn = var.target_group_arn
-    container_name   = "${local.name_prefix}-container-${module.random.result}"
+    container_name   = "${local.name_prefix}-container"
     container_port   = var.ecs_configuration.ports.container_port
   }
   lifecycle {

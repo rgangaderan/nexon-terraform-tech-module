@@ -45,16 +45,16 @@ resource "aws_alb_listener" "http_listener_service" {
   protocol = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.instance_target_group.arn
+    target_group_arn = aws_lb_target_group.target_group.arn
   }
 }
 
 ###############################################################################
-# TargetGroup Instance
+# TargetGroup 
 ###############################################################################
 
-resource "aws_lb_target_group" "instance_target_group" {
-  name        = "${local.name_prefix}-target-gp-${module.random.result}"
+resource "aws_lb_target_group" "target_group" {
+  name        = "${local.name_prefix}-${module.random.result}"
   target_type = var.type
   port        = 80
   protocol    = "HTTP"

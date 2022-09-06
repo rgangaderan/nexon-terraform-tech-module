@@ -9,7 +9,7 @@ output "db_arn" {
 }
 
 output "db_name" {
-  value       = aws_db_instance.database.db_name
+  value       = aws_db_instance.database.name
   description = "The database name."
 
 }
